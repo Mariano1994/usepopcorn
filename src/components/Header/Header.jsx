@@ -1,25 +1,16 @@
-import './Header.css'
+import { FoundResult } from "./FoundResults";
+import { Logo } from "./Logo";
+import { SearchBar } from "./SearchBar";
+import "./Header.css";
 
-
-export function Header({query, movies}) {
+export function Header({ movies }) {
   return (
     <>
       <header>
         <nav className="nav-bar">
-          <div className="logo">
-            <span role="img">🍿</span>
-            <h1>usePopcorn</h1>
-          </div>
-          <input
-            className="search"
-            type="text"
-            placeholder="Search movies..."
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-          />
-          <p className="num-results">
-            Found <strong>{movies.length}</strong> results
-          </p>
+          <Logo />
+          <SearchBar />
+          <FoundResult movies={movies}/>
         </nav>
       </header>
     </>
