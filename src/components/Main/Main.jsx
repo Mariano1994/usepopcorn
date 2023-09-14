@@ -7,8 +7,10 @@ export function Main() {
   return (
     <>
       <main className="main">
+
         <FoundMoviesListBox/>
         <WathedMoviesListBox/>
+        
       </main>
     </>
   );
