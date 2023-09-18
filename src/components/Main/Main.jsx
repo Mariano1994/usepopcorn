@@ -1,16 +1,10 @@
-import { FoundMoviesListBox } from "././FoundMoviesListBox/FoundMoviesListBox"
-import { WathedMoviesListBox } from "././WatchedMoviesListBox/WatchedMoviesListBox";
-import './Main.css'
+import "./Main.css";
 
-export function Main({movies}) {
-  
+export function Main({ children }) {
   return (
     <>
       <main className="main">
-
-        <FoundMoviesListBox movies={movies}/>
-        <WathedMoviesListBox/>
-        
+        {children}
       </main>
     </>
   );

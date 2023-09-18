@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { Header } from "./components/Header/Header";
 import { Main } from "./components/Main/Main";
-
+import { SearchBar } from "./components/Header/SearchBar";
+import { FoundResult } from "./components/Header/FoundResults";
+import { FoundMoviesListBox } from "./components/Main/FoundMoviesListBox/FoundMoviesListBox";
+import { WathedMoviesListBox } from "./components/Main/WatchedMoviesListBox/WatchedMoviesListBox";
+import { MoviesList } from "./components/Main/FoundMoviesListBox/MoviesList";
 
 const tempMovieData = [
   {
@@ -25,15 +29,27 @@ const tempMovieData = [
     Poster:
       "https://m.media-amazon.com/images/M/MV5BYWZjMjk3ZTItODQ2ZC00NTY5LWE0ZDYtZTI3MjcwN2Q5NTVkXkEyXkFqcGdeQXVyODk4OTc3MTY@._V1_SX300.jpg",
   },
-]
-
+];
 
 export default function App() {
   const [movies, setMovies] = useState(tempMovieData);
+
   return (
     <>
-      <Header movies={movies}/>
-      <Main movies={movies}/>
+      <Header>
+        <SearchBar />
+        <FoundResult movies={movies} />
+      </Header>
+
+      <Main>
+
+        <FoundMoviesListBox>
+          <MoviesList movies={movies} />
+        </FoundMoviesListBox>
+
+        <WathedMoviesListBox />
+        
+      </Main>
     </>
   );
 }

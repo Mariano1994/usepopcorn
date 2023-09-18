@@ -1,8 +1,6 @@
 import { useState } from "react";
-import { MoviesList } from "./MoviesList";
 
-
-export function FoundMoviesListBox({movies}) {
+export function FoundMoviesListBox({ children }) {
   const [isOpen1, setIsOpen1] = useState(true);
 
   return (
@@ -14,9 +12,8 @@ export function FoundMoviesListBox({movies}) {
         >
           {isOpen1 ? "–" : "+"}
         </button>
-        {isOpen1 && <MoviesList movies={movies} />}
+        {isOpen1 && children}
       </div>
     </>
   );
 }
- 

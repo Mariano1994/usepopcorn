@@ -1,16 +1,13 @@
-import { FoundResult } from "./FoundResults";
-import { Logo } from "./Logo";
-import { SearchBar } from "./SearchBar";
 import "./Header.css";
+import { Logo } from "./Logo";
 
-export function Header({ movies }) {
+export function Header({ children }) {
   return (
     <>
       <header>
         <nav className="nav-bar">
-          <Logo />
-          <SearchBar />
-          <FoundResult movies={movies}/>
+        <Logo />
+          {children}
         </nav>
       </header>
     </>
