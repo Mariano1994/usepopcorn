@@ -1,14 +1,17 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import { StarRating } from './components/StarRating/StarRating'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { StarRating } from "./components/StarRating/StarRating";
 // import App from './App.jsx'
 // import './index.css'
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     {/* <App /> */}
 
-    
-    <StarRating maxiRating={8}/>
-  </React.StrictMode>,
-)
+    <StarRating
+      maxiRating={5}
+      messages={["Terrible", "Bad", "Okay", "Good", "Amazing"]}
+    />
+    <StarRating size={20} color="#121214" className="test" />
+  </React.StrictMode>
+);
