@@ -7,9 +7,6 @@ import { ListBox } from "./components/Main/FoundMoviesListBox/ListBox";
 import { MoviesList } from "./components/Main/FoundMoviesListBox/MoviesList";
 import { Summary } from "./components/Main/WatchedMoviesListBox/Summary";
 import { WatchedMoviesList } from "./components/Main/WatchedMoviesListBox/WatchedMoviesList";
-import { useEffect } from "react";
-import { Loading } from "./components/Loading/Loading";
-import { ErrorMessage } from "./components/ErrorMessage/ErrorMessage";
 
 const tempMovieData = [
   {
@@ -58,65 +55,20 @@ const tempWatchedData = [
   },
 ];
 
-const KEY = "8c1320d";
-
 export default function App() {
-  // useState
-  const [movies, setMovies] = useState([]);
-  const [watched, setWatched] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  // const [query, setQuery] = useState('Love');
-  const [error, setError] = useState("");
-const query = "Love"
-
-  // useEffect
-  useEffect(function () {
-    async function fetchMovies() {
-      try {
-        setIsLoading(true);
-        const res = await fetch(
-          `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`
-        );
-
-        if (!res.ok) {
-          throw new Error("Someting went wrong with fetching movie List");
-        }
-          
-        const data = await res.json();
-
-        if(data.Response === 'False') throw new Error('Movie no found')
-        setMovies(data.Search);
-
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
-    fetchMovies();
-  }, []);
-
-
-  // function handleSetNewQuery(event) {
-  //   event.preventDefault();
-  //   setQuery(event.target.value)
-  // }
+  const [movies, setMovies] = useState(tempMovieData);
+  const [watched, setWatched] = useState(tempWatchedData);
 
   return (
     <>
       <Header>
-        <SearchBar/>
+        <SearchBar />
         <FoundResult movies={movies} />
       </Header>
 
       <Main>
         <ListBox>
-          {/* {isLoading ? <Loading /> : <MoviesList movies={movies} />} */}
-
-          {isLoading && <Loading />}
-          {!isLoading && !error && <MoviesList movies={movies} />}
-          {error && <ErrorMessage message={error} />}
+          <MoviesList movies={movies} />
         </ListBox>
 
         <ListBox>
