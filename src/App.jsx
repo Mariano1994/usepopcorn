@@ -10,6 +10,7 @@ import { WatchedMoviesList } from "./components/Main/WatchedMoviesListBox/Watche
 import { useEffect } from "react";
 import { Loading } from "./components/Loading/Loading";
 import { ErrorMessage } from "./components/ErrorMessage/ErrorMessage";
+import { MovieDetails } from "./components/Main/MovieDetails/MovieDetails";
 
 const tempMovieData = [
   {
@@ -65,69 +66,74 @@ export default function App() {
   const [movies, setMovies] = useState([]);
   const [watched, setWatched] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
   const [error, setError] = useState("");
+
+  const [selectedMovieId, setSelectedMovieId] = useState("tt0076759");
+
   // useEffect
-  useEffect(function () {
-    async function fetchMovies() {
+  useEffect(
+    function () {
+      async function fetchMovies() {
+        try {
+          setIsLoading(true);
+          setError("");
+          const res = await fetch(
+            `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`
+          );
 
-      try {
-        setIsLoading(true);
-        setError("");
-        const res = await fetch(
-          `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`
-        );
+          if (!res.ok) {
+            throw new Error("Someting went wrong with fetching movie List");
+          }
 
-        if (!res.ok) {
-          throw new Error("Someting went wrong with fetching movie List");
+          const data = await res.json();
+
+          if (data.Response === "False") {
+            throw new Error("Movie no found");
+          }
+
+          setMovies(data.Search);
+        } catch (err) {
+          setError(err.message);
+        } finally {
+          setIsLoading(false);
         }
-          
-        const data = await res.json();
-
-        if(data.Response === 'False') throw new Error('Movie no found')
-        setMovies(data.Search);
-
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setIsLoading(false);
       }
-    }
 
-    if(query.length < 4){
-      setMovies([]);
-      setError('')
-      return
-    }
+      if (query.length < 4) {
+        setMovies([]);
+        setError("");
+        return;
+      }
 
-    fetchMovies();
-  }, [query]);
-
-
-  // function handleSetNewQuery(event) {
-  //   event.preventDefault();
-  //   setQuery(event.target.value)
-  // }
+      fetchMovies();
+    },
+    [query]
+  );
 
   return (
     <>
       <Header>
-        <SearchBar query={query} setQuery={setQuery}/>
+        <SearchBar query={query} setQuery={setQuery} />
         <FoundResult movies={movies} />
       </Header>
 
       <Main>
         <ListBox>
-          {/* {isLoading ? <Loading /> : <MoviesList movies={movies} />} */}
-
           {isLoading && <Loading />}
           {!isLoading && !error && <MoviesList movies={movies} />}
           {error && <ErrorMessage message={error} />}
         </ListBox>
 
         <ListBox>
-          <Summary watched={watched} />
-          <WatchedMoviesList watched={watched} />
+          {selectedMovieId ? (
+            <MovieDetails selectedId={selectedMovieId} />
+          ) : (
+            <>
+              <Summary watched={watched} />
+              <WatchedMoviesList watched={watched} />
+            </>
+          )}
         </ListBox>
       </Main>
     </>
