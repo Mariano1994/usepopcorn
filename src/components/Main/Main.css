@@ -6,6 +6,8 @@
   justify-content: center;
 }
 
+
+
 .box {
   width: 42rem;
   max-width: 42rem;
@@ -49,7 +51,7 @@
 .list {
   list-style: none;
   padding: 0.8rem 0;
-  /* overflow: scroll; */
+  overflow: scroll;
 }
 
 .list-watched {
