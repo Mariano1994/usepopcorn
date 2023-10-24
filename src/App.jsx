@@ -69,7 +69,17 @@ export default function App() {
   const [query, setQuery] = useState("");
   const [error, setError] = useState("");
 
-  const [selectedMovieId, setSelectedMovieId] = useState("tt0076759");
+  const [selectedMovieId, setSelectedMovieId] = useState(null);
+
+  function handleSelectMovie(id) {
+    setSelectedMovieId((selectedMovieId) =>
+      selectedMovieId === id ? null : id
+    );
+  }
+
+  function handleCloseMovieDetail() {
+    setSelectedMovieId(null);
+  }
 
   // useEffect
   useEffect(
@@ -100,7 +110,7 @@ export default function App() {
         }
       }
 
-      if (query.length < 4) {
+      if (query.length < 3) {
         setMovies([]);
         setError("");
         return;
@@ -121,13 +131,22 @@ export default function App() {
       <Main>
         <ListBox>
           {isLoading && <Loading />}
-          {!isLoading && !error && <MoviesList movies={movies} />}
+          {!isLoading && !error && (
+            <MoviesList
+              movies={movies}
+              onSelectMovie={handleSelectMovie}
+              selectedMovieId={selectedMovieId}
+            />
+          )}
           {error && <ErrorMessage message={error} />}
         </ListBox>
 
         <ListBox>
           {selectedMovieId ? (
-            <MovieDetails selectedId={selectedMovieId} />
+            <MovieDetails
+              selectedId={selectedMovieId}
+              onCloseMovieDetail={handleCloseMovieDetail}
+            />
           ) : (
             <>
               <Summary watched={watched} />
