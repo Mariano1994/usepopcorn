@@ -5,7 +5,7 @@ import { StarRating } from "../../StarRating/StarRating";
 
 const KEY = "8c1320d";
 
-export function MovieDetails({ selectedId, onCloseMovieDetail }) {
+export function MovieDetails({ selectedId, onCloseMovieDetail, onAddWatchMovie }) {
   const [movie, setMovie] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
@@ -21,6 +21,22 @@ export function MovieDetails({ selectedId, onCloseMovieDetail }) {
     Director: director,
     Genre: genre,
   } = movie;
+
+
+  function handleAdd() {
+    const newWatchedMovie = {
+      imdbId: selectedId,
+      title,
+      year,
+      poster,
+      imdbRating: Number(imdbRating),
+      runTime: Number(runTime.split("").at(0))
+
+    }
+
+    onAddWatchMovie(newWatchedMovie)
+    onCloseMovieDetail()
+  }
 
   useEffect(() => {
     async function getMovieDetails() {
@@ -64,6 +80,7 @@ export function MovieDetails({ selectedId, onCloseMovieDetail }) {
             <section>
               <div className="rating">
                 <StarRating maxiRating={10} size={22} key={selectedId} />
+                <button className="btn-add" onClick={handleAdd}>Add to watched list</button>
               </div>
               <p>
                 <em>{plot}</em>
