@@ -12,9 +12,6 @@ import { Loading } from "./components/Loading/Loading";
 import { ErrorMessage } from "./components/ErrorMessage/ErrorMessage";
 import { MovieDetails } from "./components/Main/MovieDetails/MovieDetails";
 
-
-
-
 const KEY = "8c1320d";
 
 export default function App() {
@@ -38,7 +35,11 @@ export default function App() {
   }
 
   function handleAddWatchedMovie(movie) {
-    setWatched((watched) => [...watched, movie])
+    setWatched((watched) => [...watched, movie]);
+  }
+
+  function handleRemoveWatchedMovie(id) {
+    setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
   }
 
   // useEffect
@@ -107,12 +108,12 @@ export default function App() {
               selectedId={selectedMovieId}
               onCloseMovieDetail={handleCloseMovieDetail}
               onAddWatchMovie={handleAddWatchedMovie}
-              watched = {watched}
+              watched={watched}
             />
           ) : (
             <>
               <Summary watched={watched} />
-              <WatchedMoviesList watched={watched} />
+              <WatchedMoviesList watched={watched} onDeleteMovie={handleRemoveWatchedMovie}/>
             </>
           )}
         </ListBox>

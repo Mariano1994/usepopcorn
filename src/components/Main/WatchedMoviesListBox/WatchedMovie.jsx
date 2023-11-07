@@ -1,5 +1,5 @@
 
-export function WatchedMovie ({movie}) {
+export function WatchedMovie ({movie, onDeleteMovie}) {
 
   return(
     <>
@@ -19,6 +19,7 @@ export function WatchedMovie ({movie}) {
                 <span>⏳</span>
                 <span>{movie.runTime} min</span>
               </p>
+              <button className="btn-delete" onClick={()=> onDeleteMovie(movie.imdbID)}>X</button>
             </div>
           </li>
     </>
