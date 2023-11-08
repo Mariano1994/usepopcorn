@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useEffect } from "react";
+import { isConstructorDeclaration } from "typescript";
 import { Loading } from "../../Loading/Loading";
 import { StarRating } from "../../StarRating/StarRating";
 
@@ -48,6 +49,23 @@ export function MovieDetails({
     onCloseMovieDetail();
   }
 
+  useEffect(
+    function () {
+
+      function callBack(event) {
+        if (event.code === "Escape") {
+          onCloseMovieDetail();
+        }
+      }
+
+      document.addEventListener("keydown",callBack);
+      return function(){
+        document.removeEventListener('keydown', callBack)
+      }
+    },
+    [onCloseMovieDetail]
+  );
+
   useEffect(() => {
     async function getMovieDetails() {
       setIsLoading(true);
@@ -67,9 +85,9 @@ export function MovieDetails({
       if (!title) return;
       document.title = `Movie | ${title}`;
 
-      return function() {
-        document.title = 'usePopcorn'
-      }
+      return function () {
+        document.title = "usePopcorn";
+      };
     },
     [title]
   );
