@@ -29,7 +29,7 @@ export default function App() {
 
   function handleSelectMovie(id) {
     setSelectedMovieId((selectedMovieId) =>
-      selectedMovieId === id ? null : id
+      selectedMovieId === id ? null : id 
     );
   }
 
