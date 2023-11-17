@@ -17,12 +17,15 @@ const KEY = "8c1320d";
 export default function App() {
   // useState
   const [movies, setMovies] = useState([]);
-  const [watched, setWatched] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [query, setQuery] = useState("");
   const [error, setError] = useState("");
-
   const [selectedMovieId, setSelectedMovieId] = useState(null);
+
+  const [watched, setWatched] = useState(function () {
+    const storedValue = localStorage.getItem("watched");
+    return JSON.parse(storedValue);
+  });
 
   function handleSelectMovie(id) {
     setSelectedMovieId((selectedMovieId) =>
@@ -44,9 +47,12 @@ export default function App() {
     setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
   }
 
-  useEffect(function(){
-    localStorage.setItem('watched', JSON.stringify(watched))
-  }, [watched])
+  useEffect(
+    function () {
+      localStorage.setItem("watched", JSON.stringify(watched));
+    },
+    [watched]
+  );
 
   // useEffect
   useEffect(
@@ -72,7 +78,7 @@ export default function App() {
           }
 
           setMovies(data.Search);
-          setError('')
+          setError("");
         } catch (err) {
           if (err.name !== "AbortError") {
             setError(err.message);
@@ -87,7 +93,7 @@ export default function App() {
         setError("");
         return;
       }
-      handleCloseMovieDetail()
+      handleCloseMovieDetail();
       fetchMovies();
 
       return function () {
