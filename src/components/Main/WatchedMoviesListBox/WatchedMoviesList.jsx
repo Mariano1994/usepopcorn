@@ -7,7 +7,7 @@ export function WatchedMoviesList({watched, onDeleteMovie}) {
     <>
       <ul className="list">
         {watched.map((movie) => (
-          <WatchedMovie movie={movie} key={movie.imdbID} onDeleteMovie={onDeleteMovie}/>
+          <WatchedMovie movie={movie} key={movie.imbdID} onDeleteMovie={onDeleteMovie}/>
         ))}
       </ul>
     </>
